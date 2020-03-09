@@ -11,7 +11,8 @@ variable "managed_by" {}
 variable "app_name" {}        
 variable "environment" {}     
 variable "vpc_cidr" {}        
-variable "az_count" {}        
+variable "az_count" {}      
+variable "desired_task_count" {}
 
 module "vpc" {
   source = "./modules/vpc"
@@ -37,4 +38,6 @@ module "ecs" {
 
   private_subnets      = module.vpc.private_subnet_ids
   public_subnets       = module.vpc.public_subnet_ids
+
+  desired_task_count   = var.desired_task_count
 }

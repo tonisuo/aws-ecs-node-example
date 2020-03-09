@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
+  }
+}

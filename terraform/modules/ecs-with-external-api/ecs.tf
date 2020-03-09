@@ -38,6 +38,10 @@ variable "public_subnets" {
 
 }
 
+variable "desired_task_count" {
+
+}
+
 # ALB
 
 resource "aws_alb" "alb" {
@@ -182,7 +186,7 @@ resource "aws_security_group" "ecs_service" {
 resource "aws_ecs_service" "web" {
   name            = "${var.app_name}-${var.environment}-web"
   task_definition = aws_ecs_task_definition.web_task.arn
-  desired_count   = 2
+  desired_count   = var.desired_task_count
   launch_type     = "FARGATE"
   cluster         = aws_ecs_cluster.cluster.id
 
@@ -233,4 +237,8 @@ output "ecs_service_name" {
 
 output "ecs_cluster_name" {
   value = aws_ecs_cluster.cluster.name
+}
+
+output "load_balancer_address" {
+  value = aws_alb.alb.dns_name
 }
