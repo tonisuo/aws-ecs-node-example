@@ -34,7 +34,7 @@ variable "private_subnets" {
   
 }
 
-variable "vpc_public_subnet_id" {
+variable "public_subnets" {
 
 }
 
@@ -44,7 +44,7 @@ resource "aws_alb" "alb" {
   name               = "${var.app_name}-${var.environment}-alb"
   internal           = false
   load_balancer_type = "application"
-  subnets            = flatten(var.vpc_public_subnet_id)
+  subnets            = flatten(var.public_subnets)
   security_groups    = [aws_security_group.alb_sg.id]
 
   tags = {
