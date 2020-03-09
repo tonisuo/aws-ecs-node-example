@@ -1,106 +1,140 @@
 data "aws_availability_zones" "available" {}
 
+variable "vpc_cidr" {
+  
+}
+
+variable "environment" {
+  
+}
+
+variable "managed_by" {
+  
+}
+
+variable "app_name" {
+  
+}
+
+variable "az_count" {
+  
+}
+
 resource "aws_vpc" "vpc" {
-  cidr_block           = "${var.vpc_cidr}"
+  cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-vpc"
-    environment = "${var.environment}"
-    managed_by  = "${var.managed_by}"
+    environment = var.environment
+    managed_by  = var.managed_by
   }
 }
 
 resource "aws_internet_gateway" "ig" {
-  vpc_id = "${aws_vpc.vpc.id}"
+  vpc_id = aws_vpc.vpc.id
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-ig"
-    environment = "${var.environment}"
-    managed_by  = "${var.managed_by}"
+    environment = var.environment
+    managed_by  = var.managed_by
   }
 }
 
 resource "aws_eip" "nat" {
-  count = "${var.az_count}"
+  count = var.az_count
   vpc   = true
 }
 
 resource "aws_nat_gateway" "gw" {
-  count         = "${var.az_count}"
-  subnet_id     = "${element(aws_subnet.public.*.id, count.index)}"
-  allocation_id = "${element(aws_eip.nat.*.id, count.index)}"
+  count         = var.az_count
+  subnet_id     = element(aws_subnet.public.*.id, count.index)
+  allocation_id = element(aws_eip.nat.*.id, count.index)
 }
 
 resource "aws_subnet" "public" {
-  count                   = "${var.az_count}"
-  vpc_id                  = "${aws_vpc.vpc.id}"
-  cidr_block              = "${cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index)}"
-  availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
+  count                   = var.az_count
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index)
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = false
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-public-subnet-${count.index}"
-    environment = "${var.environment}"
-    managed_by  = "${var.managed_by}"
+    environment = var.environment
+    managed_by  = var.managed_by
   }
 }
 
 resource "aws_subnet" "private" {
-  count                   = "${var.az_count}"
-  vpc_id                  = "${aws_vpc.vpc.id}"
-  cidr_block              = "${cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index + 100)}"
-  availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
+  count                   = var.az_count
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, count.index + 100)
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = false
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-private-subnet-${count.index}"
-    environment = "${var.environment}"
-    managed_by  = "${var.managed_by}"
+    environment = var.environment
+    managed_by  = var.managed_by
   }
 }
 
 resource "aws_route_table" "public" {
-  count  = "${var.az_count}"
-  vpc_id = "${aws_vpc.vpc.id}"
+  count  = var.az_count
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.ig.id}"
+    gateway_id = aws_internet_gateway.ig.id
   }
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-public-routes"
-    environment = "${var.environment}"
-    managed_by  = "${var.managed_by}"
+    environment = var.environment
+    managed_by  = var.managed_by
   }
 }
 
 resource "aws_route_table" "private" {
-  count  = "${var.az_count}"
-  vpc_id = "${aws_vpc.vpc.id}"
+  count  = var.az_count
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = "${element(aws_nat_gateway.gw.*.id, count.index)}"
+    nat_gateway_id = element(aws_nat_gateway.gw.*.id, count.index)
   }
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-private-routes"
-    environment = "${var.environment}"
-    managed_by  = "${var.managed_by}"
+    environment = var.environment
+    managed_by  = var.managed_by
   }
 }
 
 resource "aws_route_table_association" "public" {
-  count          = "${var.az_count}"
-  subnet_id      = "${element(aws_subnet.public.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.public.*.id, count.index)}"
+  count          = var.az_count
+  subnet_id      = element(aws_subnet.public.*.id, count.index)
+  route_table_id = element(aws_route_table.public.*.id, count.index)
 }
 
 resource "aws_route_table_association" "private" {
-  count          = "${var.az_count}"
-  subnet_id      = "${element(aws_subnet.private.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
+  count          = var.az_count
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = element(aws_route_table.private.*.id, count.index)
 }
+
+output "vpc_id" {
+  value = aws_vpc.vpc.id
+}
+
+output "public_subnet_ids" {
+  value = [aws_subnet.public.*.id]
+}
+
+output "private_subnet_ids" {
+  value = [aws_subnet.private.*.id]
+}
+
+

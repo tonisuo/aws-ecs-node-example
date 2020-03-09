@@ -1,8 +1,39 @@
+variable "vpc_cidr" {
+  
+}
+
+variable "environment" {
+  
+}
+
+variable "managed_by" {
+  
+}
+
+variable "app_name" {
+  
+}
+
+variable "az_count" {
+  
+}
+
+variable "vpc_id" {
+  
+}
+
+variable "vpc_public_subnet_id" {
+  
+}
+
+
+
+
 resource "aws_alb" "alb" {
   name               = "${var.app_name}-${var.environment}-alb"
   internal           = false
   load_balancer_type = "application"
-  subnets            = ["${aws_subnet.public.*.id}"]
+  subnets            = var.vpc_public_subnet_id
   security_groups    = ["${aws_security_group.alb_sg.id}"]
 
   tags {
@@ -15,10 +46,10 @@ resource "aws_alb_target_group" "tg" {
   name        = "${var.app_name}-${var.environment}-target-grp"
   port        = 3000
   protocol    = "HTTP"
-  vpc_id      = "${aws_vpc.vpc.id}"
+  vpc_id      = var.vpc_id
   target_type = "ip"
 
-  tags {
+  tags = {
     environment = "${var.environment}"
     managed_by  = "${var.managed_by}"
   }
@@ -37,7 +68,7 @@ resource "aws_alb_listener" "http" {
 
 resource "aws_security_group" "alb_sg" {
   name        = "${var.app_name}-${var.environment}-alb-sg"
-  vpc_id      = "${aws_vpc.vpc.id}"
+  vpc_id      = var.vpc_id
 
   ingress {
     protocol    = "tcp"
@@ -53,10 +84,23 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
+  tags = {
     name        = "${var.app_name}-${var.environment}-alb-sg"
     environment = "${var.environment}"
     managed_by  = "${var.managed_by}"
   }
 }
+
+output "load_balancer_address" {
+  value = aws_alb.alb.dns_name
+}
+
+output "alb_sg_id" {
+  value = aws_security_group.alb_sg.id
+}
+
+output "alb_target_group_id" {
+  value = aws_alb_target_group.tg.id
+}
+
 
