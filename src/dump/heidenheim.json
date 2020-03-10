@@ -1,0 +1,47 @@
+{
+    "Heidenheim": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "N": "1"
+                    },
+                    "state": {
+                        "S": "Baden-Württemberg"
+                    },
+                    "district": {
+                        "S": "Heidenheim"
+                    },
+                    "population": {
+                        "N": "49526"
+                    },
+                    "website": {
+                        "S": "http://www.heidenheim.de/"
+                    },
+                    "summary": {
+                        "S": "Heidenheim an der Brenz (short: Heidenheim; Swabian: Hoidna) is a town in Baden-Württemberg in southern Germany. It is located near the border with Bavaria, approximately 17 km south of Aalen and 33 km north of Ulm. Heidenheim is the largest town and the seat of the district of Heidenheim, and ranks third behind Aalen and Schwäbisch Gmünd in size among the towns in the region of East Württemberg. Heidenheim is the economic center for all the communities in Heidenheim district and is the headquarters of the Voith industrial company. The town's population passed the 20,000 mark in 1925. Heidenheim collaborates with the town of Nattheim in administrative matters.The residents of Heidenheim and its surrounding area speak the distinct German dialect of Swabian."
+                    },
+                    "geography": {
+                        "S": "Heidenheim is situated between Albuch and the Härtsfeld region in the northeast corner of the Swabian Alb where the valley of the Brenz meets the Stubental at the foot of Hellenstein Mountain. The source of the Brenz is located in Königsbronn and enters Heidenheim from the northwest. It runs through the boroughs of Aufhausen and Schnaitheim before it gets to Heidenheim (proper). From there it continues on to the south through the borough of Mergelstetten, before it leaves the city limits to head for Herbrechtingen."
+                    },
+                    "religion": {
+                        "S": "Heidenheim's residents originally belonged to the Prince-Bishopric of Augsburg from where they were assigned to the Heidenheim Chapter. But already in 1524 the Reformation burst into the city via Ulm. As at the time Heidenheim was part of Württemberg and Duke Ulrich championed the Reformation (from 1535 on), residents of city have adhered over the centuries primarily to the Protestant faith. In those days, Heidenheim became seat of a Deacony, its church being the Paul's Church of today (built in 1897)."
+                    },
+                    "pointsOfInterest": {
+                        "M": {
+                            "Music": {
+                                "S": "Heidenheim is the home of the Neuer Kammerchor Heidenheim, one of the most accomplished youth choirs in Germany, founded in 2005 by Thomas Kammel and under his direction since then.[3] The Neuer Kammerchor tours overseas extensively and continuously wins critical acclaim for its performances.[4][5] In January 2017 the choir was given the Bürger-Prize of the City of Heidenheim for his accomplishments as a cultural ambassador."
+                            },
+                            "Events": {
+                                "S": "Every other year the Shepherd Run takes place in Heidenheim, first held in 1723 by Duke Eberhard Ludwig. It attracts all the shepherds in the area. Part of the Shepherd Run festivities is the crowning of a new shepherd king and queen. The Run was held until 1828. After that followed a long break until 1922 when it was held again (five times until 1952). Since 1972 it is once again an integral part of Heidenheim's regular cultural program. In 2006 Heidenheim hosted the bi-annual Baden-Württemberg State Botanical Show. Heidenheim annually hosts a World Cup fencing tournament in épée. Because of the size and depth of the field, the Heidenheim event is considered the strongest épée event in the world, stronger even than the World Championships or the Olympic Games."
+                            },
+                            "Sport": {
+                                "S": "Another primary sport club in Heidenheim is Heidenheimer Sportbund (SB), which offers a number of different kinds of sports. Its football division is led by FC Heidenheim 1846, which plays at the Voith-Arena. The team has experienced success in recent years, rising two tiers in the German football league system after winning the Regionalliga Süd in 2009. It now competes in Germany second level, the 2. Bundesliga. Heidenheimer SB's baseball division, Heidenheim Heideköpfe, plays in the first division of the Baseball Bundesliga. The club has made the playoffs in almost every year since it reached the first division in 2001, and won the championship in 2009."
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

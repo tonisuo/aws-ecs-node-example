@@ -3,6 +3,7 @@
     "express": "^4.16.4"
   },
   "devDependencies": {
+    "aws-sdk": "^2.636.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }
