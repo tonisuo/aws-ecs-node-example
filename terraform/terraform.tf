@@ -13,6 +13,8 @@ variable "environment" {}
 variable "vpc_cidr" {}        
 variable "az_count" {}      
 variable "desired_task_count" {}
+variable "access_key_id" {}
+variable "secret_access_key" {}
 
 module "vpc" {
   source = "./modules/vpc"
@@ -40,4 +42,15 @@ module "ecs" {
   public_subnets       = module.vpc.public_subnet_ids
 
   desired_task_count   = var.desired_task_count
+
+  access_key_id        = var.access_key_id
+  secret_access_key    = var.secret_access_key
+}
+
+module "ddb" {
+  source = "./modules/ddb"
+
+  table_name  = "Heidenheim"
+  environment = var.environment
+  managed_by  = var.managed_by
 }

@@ -42,6 +42,16 @@ variable "desired_task_count" {
 
 }
 
+variable "access_key_id" {
+  
+}
+
+variable "secret_access_key" {
+  
+}
+
+
+
 # ALB
 
 resource "aws_alb" "alb" {
@@ -133,6 +143,10 @@ resource "aws_ecs_task_definition" "web_task" {
     ],
     "memoryReservation": 300,
     "networkMode": "awsvpc",
+    "environment": [
+      {"name": "AWS_ACCESS_KEY_ID",  "value": "${var.access_key_id}"},
+      {"name": "AWS_SECRET_ACCESS_KEY",  "value": "${var.secret_access_key}"}
+    ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
