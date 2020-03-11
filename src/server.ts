@@ -24,10 +24,9 @@ const categories = {
     ]
 }
 
-export async function getItemById(townId: number): Promise<Item> {
-    console.log('here');
+export async function getItemById(townId: string): Promise<Item> {
     const params = {
-        TableName: 'Heidenheim',
+        TableName: 'Town',
         Key: {
             id: townId
         }
@@ -40,9 +39,9 @@ export async function getItemById(townId: number): Promise<Item> {
     return data.Item as Item;
 }
 
-export async function getAttributesInItem(townId: number, attributes: string[]): Promise<Item> {
+export async function getAttributesInItem(townId: string, attributes: string[]): Promise<Item> {
     const params = {
-        TableName: 'Heidenheim',
+        TableName: 'Town',
         Key: {
             id: townId
         },
@@ -57,32 +56,32 @@ export async function getAttributesInItem(townId: number, attributes: string[]):
 }
 
 app.get('/health', async (req: Request, res: Response) => {
-    res.send('OK!')
+    res.send('OK!');
 })
 
-app.get('/heidenheim', async (req: Request, res: Response) => {
-    const data = await getItemById(1);
-    res.send(data)
+app.get('/town', async (req: Request, res: Response) => {
+    res.send(categories);
 })
 
-app.get('/heidenheim/category', async (req: Request, res: Response) => {
-    res.send(categories)
+app.get('/town/:townId', async (req: Request, res: Response) => {
+    const data = await getItemById(req.params.townId);
+    res.send(data);
 })
 
-app.get('/heidenheim/category/:category', async (req: Request, res: Response) => {
+app.get('/town/:townId/:category', async (req: Request, res: Response) => {
+    const townId = req.params.townId;
     const category = req.params.category;
     if (categories.categories.includes(category)) {
-        const data = await getAttributesInItem(1, [category])
-        res.send(data)
+        const data = await getAttributesInItem(townId, [category]);
+        res.send(data);
     } else {
-        res.statusCode = 404
-        res.statusMessage = 'category not found'
-        res.send()
+        res.statusCode = 404;
+        res.statusMessage = 'category not found';
+        res.send();
     }
 })
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
-    console.log(`Server started. Listening on port: ${port}`)
-    console.log(process.env.IS_OFFLINE)
+    console.log(`Server started. Listening on port: ${port}`);
 })

@@ -22,9 +22,8 @@ const categories = {
     ]
 };
 async function getItemById(townId) {
-    console.log('here');
     const params = {
-        TableName: 'Heidenheim',
+        TableName: 'Town',
         Key: {
             id: townId
         }
@@ -38,7 +37,7 @@ async function getItemById(townId) {
 exports.getItemById = getItemById;
 async function getAttributesInItem(townId, attributes) {
     const params = {
-        TableName: 'Heidenheim',
+        TableName: 'Town',
         Key: {
             id: townId
         },
@@ -54,17 +53,18 @@ exports.getAttributesInItem = getAttributesInItem;
 app.get('/health', async (req, res) => {
     res.send('OK!');
 });
-app.get('/heidenheim', async (req, res) => {
-    const data = await getItemById(1);
-    res.send(data);
-});
-app.get('/heidenheim/category', async (req, res) => {
+app.get('/town', async (req, res) => {
     res.send(categories);
 });
-app.get('/heidenheim/category/:category', async (req, res) => {
+app.get('/town/:townId', async (req, res) => {
+    const data = await getItemById(req.params.townId);
+    res.send(data);
+});
+app.get('/town/:townId/:category', async (req, res) => {
+    const townId = req.params.townId;
     const category = req.params.category;
     if (categories.categories.includes(category)) {
-        const data = await getAttributesInItem(1, [category]);
+        const data = await getAttributesInItem(townId, [category]);
         res.send(data);
     }
     else {
@@ -76,5 +76,4 @@ app.get('/heidenheim/category/:category', async (req, res) => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server started. Listening on port: ${port}`);
-    console.log(process.env.IS_OFFLINE);
 });

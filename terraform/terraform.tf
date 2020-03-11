@@ -50,7 +50,7 @@ module "ecs" {
 module "ddb" {
   source = "./modules/ddb"
 
-  table_name  = "Heidenheim"
+  table_name  = "Town"
   environment = var.environment
   managed_by  = var.managed_by
 }

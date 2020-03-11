@@ -1,10 +1,10 @@
 {
-    "Heidenheim": [
+    "Town": [
         {
             "PutRequest": {
                 "Item": {
                     "id": {
-                        "N": "1"
+                        "S": "Heidenheim"
                     },
                     "state": {
                         "S": "Baden-Württemberg"
